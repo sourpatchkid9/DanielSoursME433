@@ -111,6 +111,7 @@ int main() {
     
     initSPI1();
     
+    
     unsigned int i = 0;
     unsigned int sinwave[100];
     unsigned int sawwave[100];

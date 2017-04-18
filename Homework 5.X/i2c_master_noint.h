@@ -8,19 +8,6 @@
 #ifndef I2C_MASTER_NOINT_H
 #define	I2C_MASTER_NOINT_H
 
-#ifdef	__cplusplus
-extern "C" {
-#endif
-
-
-
-
-#ifdef	__cplusplus
-}
-#endif
-
-#endif	/* I2C_MASTER_NOINT_H */
-
 void i2c_master_setup(void);
 
 void i2c_master_start(void);
@@ -36,5 +23,13 @@ void i2c_master_ack(int val);
 void i2c_master_stop(void);
 
 void i2c_initialize_expander(void);
+
+void i2c_read(unsigned char address, unsigned char reg);
+
+void i2c_write(unsigned char address, unsigned char value, unsigned char reg);
+
+
+#endif	/* I2C_MASTER_NOINT_H */
+
 
 

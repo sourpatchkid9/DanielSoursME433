@@ -1,4 +1,6 @@
 #include "i2c_master_noint.h"
+#include <xc.h>
+#define SLAVE_ADDR 0x32
 
 
 void i2c_master_setup(void) {
@@ -47,4 +49,39 @@ void i2c_master_stop(void) {          // send a STOP:
 void i2c_initialize_expander(void){
     ANSELbits.ANSB2 = 0;
     ANSELbits.ANSB3 = 0;
+    char buf[100] = {};                       // buffer for sending messages to the user
+  unsigned char master_write0 = 0xCD;       // first byte that master writes
+  unsigned char master_write1 = 0x91;       // second byte that master writes
+  unsigned char master_read0  = 0x00;       // first received byte
+  unsigned char master_read1  = 0x00;       // second received byte
+}
+
+void i2c_write(unsigned char address, unsigned char value, unsigned char reg){
+    i2c_master_start(); // make the start bit
+
+    i2c_master_send(address<1|0); // write the address, shifted left by 1, or'ed with a 0 to indicate writing
+
+    i2c_master_send(reg); // the register to write to
+
+    i2c_master_send(value); // the value to put in the register
+
+    i2c_master_stop(); // make the stop bit
+}
+
+void i2c_read(unsigned char address, unsigned char reg){
+    i2c_master_start(); // make the start bit
+
+    i2c_master_send(address<1|0); // write the address, shifted left by 1, or'ed with a 0 to indicate writing
+
+    i2c_master_send(reg); // the register to read from
+
+    i2c_master_restart(); // make the restart bit
+
+    i2c_master_send(address<1|1); // write the address, shifted left by 1, or'ed with a 1 to indicate reading
+
+    char r = i2c_master_recv(); // save the value returned
+
+    i2c_master_ack(1); // make the ack so the slave knows we got it
+
+    i2c_master_stop(); // make the stop bit
 }
