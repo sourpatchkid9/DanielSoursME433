@@ -1,8 +1,8 @@
 /* 
- * File:   main.c
+ * File:   main5.c
  * Author: Daniel
  *
- * Created on April 10, 2017, 9:10 PM
+ * Created on April 17, 2017, 8:47 PM
  */
 
 #include <stdio.h>
@@ -137,24 +137,3 @@ int main() {
         _CP0_SET_COUNT(0);
     }
 }
-
-draw_character(char c,x,y,color1,color2)
-        char d = c-0x20,int i ,j
-        for i = 0:4
-                if(x*i<128)
-                    for j=0:7
-                            if(y*j<128)
-                                if (ascii[d][i])>>j&1==1)
-                                        draw_pixel(x+i,y+j,color1)
-
-#include stdio.h
-char msg[100] 
-len = sprinf(msg,"hello %d"    ,i) //i goes from 50 to -50 and include blanks after %d to help prevent skips in numbers
-                                        
-draw_barx(x,y,color1,color2,len,w)
-for i=1:len
-for j=0:w
-draw_pixel
-        
-                                        
-                                        
