@@ -185,4 +185,3 @@ void LCD_setAddr(unsigned short, unsigned short, unsigned short, unsigned short)
 void LCD_clearScreen(unsigned short); // set the color of every pixel
 
 #endif
-

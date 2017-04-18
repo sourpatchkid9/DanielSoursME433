@@ -47,14 +47,37 @@
 #pragma config FUSBIDIO = ON // USB pins controlled by USB module
 #pragma config FVBUSONIO = ON // USB BUSON controlled by USB module
 
-   
-/*
- * 
- */
+void draw_character(char c, char x,char y, char color1){
+    char d = c-0x20;
+    int i,j;
+    for (i;i<=4;++i){
+        if(x*i<128){
+            for (j;j<=7;++j){
+                if (y*j<128){
+                    if (ASCII[d][i])>>j&1==1){
+                        LCD_drawPixel(x+i,y+j,color1);
+                    }
+                }
+            }
+            
+            
+        }
+    }
+}
+
+void draw_bar(char x,char y,char color1, char color2,char len, char w){
+    int i,j;
+    for (i;i<=len;++i){
+        
+    }
+    for (j;j<=w;++j){
+        
+    }
+}
 int main() {
-    //SPI1_init();
+    SPI1_init();
     LCD_init();
-    LCD_clearScreen(MAGENTA);
-    
+    LCD_clearScreen(BLACK); 
+    draw_character(72,0,0,WHITE);
 }
 
