@@ -138,15 +138,6 @@ int main() {
     }
 }
 
-draw_character(char c,x,y,color1,color2)
-        char d = c-0x20,int i ,j
-        for i = 0:4
-                if(x*i<128)
-                    for j=0:7
-                            if(y*j<128)
-                                if (ascii[d][i])>>j&1==1)
-                                        draw_pixel(x+i,y+j,color1)
-
 #include stdio.h
 char msg[100] 
 len = sprinf(msg,"hello %d"    ,i) //i goes from 50 to -50 and include blanks after %d to help prevent skips in numbers

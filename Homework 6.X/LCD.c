@@ -47,37 +47,98 @@
 #pragma config FUSBIDIO = ON // USB pins controlled by USB module
 #pragma config FVBUSONIO = ON // USB BUSON controlled by USB module
 
-void draw_character(char c, char x,char y, char color1){
+void draw_character(char c, char x,char y, short color1){
     char d = c-0x20;
     int i,j;
-    for (i;i<=4;++i){
-        if(x*i<128){
-            for (j;j<=7;++j){
-                if (y*j<128){
-                    if (ASCII[d][i])>>j&1==1){
+    for (i = 0;i <= 4; ++i){
+        //if(x*i<128)
+            for (j = 0;j <= 7; ++j){
+                //if(y*j<128)
+                    if (((ASCII[d][i]) >> j) & 1){
                         LCD_drawPixel(x+i,y+j,color1);
                     }
-                }
             }
-            
-            
-        }
     }
 }
 
-void draw_bar(char x,char y,char color1, char color2,char len, char w){
+void write_string(char str[], char x, char y, short color){
+    int i = 0;
+    while(str[i]){
+        draw_character(str[i],x,y,color);
+        x +=5;
+        i++;
+    }
+}    
+
+
+
+void draw_bar(char x,char y,short color1, short color2,char len, char w){
     int i,j;
-    for (i;i<=len;++i){
-        
-    }
-    for (j;j<=w;++j){
-        
-    }
+    char str[100];
+    for (i = 0;i<=len;++i){
+        sprintf(str,"Hello World %d",i);
+        write_string("```",88,32,BLACK);
+        write_string(str,28,32,WHITE);
+      
+        for (j = 0;j<=w;++j){
+            _CP0_SET_COUNT(0);
+            if (i < len/2){
+                LCD_drawPixel(x+i,y+j,color1);
+                while(_CP0_GET_COUNT() < 4000){
+                    
+                }
+            }
+            else{
+                LCD_drawPixel(x+i,y+j,color2);
+                while(_CP0_GET_COUNT() < 4000){
+                    
+                }
+            }
+        }
+    
+}
+}
+void clear_bar(char x,char y,short color1, short color2,char len, char w){
+    int i,j;
+    
+    for (i = 0;i<=len;++i){
+        for (j = 0;j<=w;++j){
+            _CP0_SET_COUNT(0);
+            if (i < len/2){
+                LCD_drawPixel(x+i,y+j,color1);
+            }
+            else{
+                LCD_drawPixel(x+i,y+j,color2);
+            }
+        }
+    
+}
 }
 int main() {
     SPI1_init();
     LCD_init();
-    LCD_clearScreen(BLACK); 
-    draw_character(72,0,0,WHITE);
-}
+    LCD_clearScreen(BLACK);
+    /*draw_character('H',28,32,WHITE);
+    draw_character('e',33,32,WHITE);
+    draw_character('l',38,32,WHITE);
+    draw_character('l',43,32,WHITE);
+    draw_character('o',48,32,WHITE);
+    draw_character(' ',53,32,WHITE);
+    draw_character('W',58,32,WHITE);
+    draw_character('o',63,32,WHITE);
+    draw_character('r',68,32,WHITE);
+    draw_character('l',73,32,WHITE);
+    draw_character('d',78,32,WHITE);
+    draw_character(' ',83,32,WHITE);
+    draw_character('1',88,32,WHITE);
+    draw_character('0',93,32,WHITE);
+    draw_character('0',98,32,WHITE);*/
 
+    
+
+    while(1){
+   draw_bar(13,60,BLUE,YELLOW,100,5);
+   clear_bar(13,60,BLACK,BLACK,100,5);
+    }
+    
+}
