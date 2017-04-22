@@ -137,15 +137,4 @@ int main() {
         _CP0_SET_COUNT(0);
     }
 }
-
-#include stdio.h
-char msg[100] 
-len = sprinf(msg,"hello %d"    ,i) //i goes from 50 to -50 and include blanks after %d to help prevent skips in numbers
-                                        
-draw_barx(x,y,color1,color2,len,w)
-for i=1:len
-for j=0:w
-draw_pixel
-        
-                                        
-                                        
+                                   
