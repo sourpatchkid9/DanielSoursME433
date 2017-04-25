@@ -22,7 +22,7 @@ void i2c_master_ack(int val);
 
 void i2c_master_stop(void);
 
-void initExpander();
+void init_IMU();
     
 void setExpander(char pin, char level);
 
@@ -30,6 +30,7 @@ char getExpander();
  
 void I2C_read_multiple(unsigned char address, unsigned char register, unsigned char * data, int length);
 
+short combineData(char * data, int index);
+
 
 #endif	/* I2C_MASTER_NOINT_H */
-

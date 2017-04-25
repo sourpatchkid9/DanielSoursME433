@@ -1,13 +1,16 @@
 /* 
- * File:   IMU.c
- * Author: Daniel
- *
- * Created on April 22, 2017, 4:04 PM
- */
+* File: IMU.c
+* Author: Daniel
+*
+* Created on April 22, 2017, 4:04 PM
+*/
 #include "i2c_master_noint.h"
-#include<xc.h>           // processor SFR definitions
-#include<sys/attribs.h>  // __ISR macro
+#include <stdio.h>
+#include<xc.h> // processor SFR definitions
+#include<sys/attribs.h> // __ISR macro
 #include<math.h>
+#include "ILI9163C.h"
+#include <stdio.h>
 #define SLAVE_ADDR 0b1101011
 // DEVCFG0
 #pragma config DEBUG = OFF // no debugging
@@ -44,22 +47,40 @@
 #pragma config FUSBIDIO = ON // USB pins controlled by USB module
 #pragma config FVBUSONIO = ON // USB BUSON controlled by USB module
 
-int main() {                    // buffer for sending messages to the user
+int main() { // buffer for sending messages to the user
+init_IMU();
+SPI1_init();
+LCD_init();
+LCD_clearScreen(BLACK);
 
-    initExpander();
-    
-    while (1){
-        char temp = getExpander();
-        char bit7 = temp >> 7;
-        if (bit7){
-            setExpander(0, 1);
-        }
-        else{
-            setExpander(0, 0);
-        }
-        
-    }
+
+int length = 14;
+char msg[100];
+unsigned char data[length];
+
+while(1){
+    _CP0_SET_COUNT(0);
+    I2C_read_multiple(SLAVE_ADDR, 0x20, data, length);
+    short temp = combineData(data,0);
+    short gyroX = combineData(data,2);
+    short gyroY = combineData(data,4);
+    short gyroZ = combineData(data,6);
+    short accelX = combineData(data,8);
+    short accelY = combineData(data,10);
+    short accelZ = combineData(data,12);
+    sprintf(msg,"AccelX: %d",accelX);
+    write_string(msg,28,32,CYAN);
+    sprintf(msg,"AccelY: %d",accelY);
+    write_string(msg,28,40,CYAN);
+    sprintf(msg,"GyroX: %d",gyroX);
+    write_string(msg,28,48,CYAN);
+    sprintf(msg,"GyroY: %d",gyroY);
+    write_string(msg,28,56,CYAN);
+        while (_CP0_GET_COUNT()<4000000){    
 }
-
+    write_string("`````",63,32,BLACK);
+    write_string("`````",63,40,BLACK);
+    write_string("`````",63,48,BLACK);
+    write_string("`````",63,56,BLACK);
 }
-
+}
